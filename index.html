@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Table</title>
+<link rel="stylesheet" href="css/style.css">
+<script>
+    function getValue(){
+        var text1 = document.getElementById("input_form").value;
+        var number = document.getElementById("number");
+        var fio = document.getElementById("fio");
+        number.innerHTML = "1"
+        fio.innerHTML = text1;
+    }
+    //window.onload=getValue;
+</script>
+
+<!-- <script src="js/script.js"></script> -->
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <td>№</td>
+            <td>ФИО</td>
+            <td> Действия</td>
+        </tr>
+        <tr>
+            <td id="number"></td>
+            <td id="fio"></td>
+            <td id="actions">    
+                <input type="submit" value="Редактировать">
+                <input type="submit" value="Удалить">
+            </td>
+        </tr>
+    </table>
+    <input type="text" id="input_form">
+    <input type="submit" value="Отправить" onclick="getValue()" >
+</body>
+</html>
