@@ -49,6 +49,7 @@
                 fio.innerHTML = text;
                 fio.appendChild(br);
                 a+=1;
+                var text = document.getElementById("input_form").value="";
             } 
             else{
                 var text = document.getElementById("input_form").value;
@@ -74,7 +75,7 @@
                 
                 table.appendChild(tr);
                 a+=1;
-    
+                var text = document.getElementById("input_form").value="";
                 //var newDiv = document.createElement("div");
                 //newDiv.innerHTML = "<h1>Привет!</h1>";
                 //document.body.insertBefore(newDiv, input_form);
@@ -92,7 +93,7 @@
             var text1 = tr.childNodes[1];
             var text = document.getElementById("change").value;
             text1.innerHTML = text;
-            
+            var text = document.getElementById("change").value="";
             //tr.removeChild(td, text);
         }
     </script>
