@@ -1,4 +1,4 @@
-var ready = function () {
+
     var body=document.getElementsByTagName("body")[0];
     var table = document.createElement("table"); 
     var row = document.createElement("tr");
@@ -88,18 +88,19 @@ var ready = function () {
     var people =1;
     btn.onclick=function(){
         //text = inp.value;
-        new People(people,inp.value).CreateHtml();
-        inp.value="";
-        //new People.SomeDeleteRowFunction();
-        people+=1;
-        //var del = document.getElementById("del")
-        //del.onclick=function(){
-        //    new People.SomeDeleteRowFunction();
-       //}
+        
        
-        console.log(document.querySelectorAll("tr").length);
-        console.log(document.getElementById("del").innerHTML)
-
+        var del = new Promise(function(resolve,reject){
+            setTimeout(()=>{
+                resolve(new People(people,inp.value).CreateHtml());
+            },10)
+        });
+        del.then(function(){
+            inp.value="";
+            people+=1;
+            new People.SomeDeleteRowFunction();
+        });
+       
     };
     body.appendChild(btn);
 
@@ -110,6 +111,3 @@ var ready = function () {
     //};
     
    //console.log(document.querySelectorAll("tr").length);
-};
-
-document.addEventListener("DOMContentLoaded", ready);
