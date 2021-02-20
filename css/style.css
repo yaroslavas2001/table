@@ -1,6 +1,6 @@
 .table{
     background-color: #ffd6ff;
-    width: 800px;
+    width: 806px;
     border: 1px solid black;
     text-align: center;
     display: flex;
@@ -10,8 +10,9 @@
     display: flex;
 }
 .cell{
-     border: 1px solid black;
-     width: 200px;
+    border: 1px solid black;
+    width: 200px;
+    height: 30px;
 }
 td{
      border: 1px solid black;
