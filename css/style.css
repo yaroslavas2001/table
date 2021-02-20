@@ -1,6 +1,17 @@
 .table{
-   
-    background-color: lightblue;
+    background-color: #ffd6ff;
+    width: 800px;
+    border: 1px solid black;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.row{
+    display: flex;
+}
+.cell{
+     border: 1px solid black;
+     width: 200px;
 }
 td{
      border: 1px solid black;
@@ -10,7 +21,7 @@ td{
 .my{
     background-color: #ffd6ff;
     width: 900px;
-    border: 1px solid black;
+    
     text-align: center;
 }
 .btn{
