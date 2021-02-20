@@ -207,20 +207,13 @@ class AddForm {
 
     }
     Init(body) {
-        //Создаем поле для ввода ФИО
         this.inp = document.createElement("input");
-        //Добавляем input в body
         body.appendChild(this.inp);
 
-        //Создаем элемент <button></button>
         var btn = document.createElement("button");
-        //Добавляем текст в кнопку <button>Добавить</button>
         btn.textContent = "Добавить"
-        //Добавляем класс к кнопке btn
         btn.classList.add('btn')
-        // по клику на кнопку вызываем функцию 
         btn.onclick = this.onClickAddPeople.bind(this);
-        // добавляем кнопку в body
         body.appendChild(btn);
     }
 
