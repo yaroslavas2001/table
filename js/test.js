@@ -4,24 +4,11 @@ class People {
         this.text = text
     }
     CreateHtml(table) {
-        this.TrDisplay = new TrDisplay(this.index, this.text, this.onEdit.bind(this));
-        this.TrEdit = new TrEdit(this.index, this.text);
-        this.TrEdit.Hidden();
-        //this.TrDisplay.SetData(2,"Иванов И.И.")
+        this.TrDisplay = new TrDisplay(this.index, this.text);
         table.appendChild(this.TrDisplay.GetElement());
-        table.appendChild(this.TrEdit.GetElement());
         return table
     }  
-    onEdit() {
-        this.TrDisplay.Hidden();
-        this.TrEdit.Show();
-    }
-    Hidden() {
-        this.row.hidden = true;
-    }
-    Show() {
-        this.row.hidden = false;
-    }
+
 }
 class Button {
     constructor(text, onclick) {
@@ -32,7 +19,7 @@ class Button {
     }
 }
 class TrDisplay {
-    constructor(index, fio, onEdit) {
+    constructor(index, fio) {
         this.row = document.createElement("div");
         this.row.className = "row";
 
@@ -65,10 +52,21 @@ class TrDisplay {
 
         this.cell_actions = document.createElement("div");
         this.cell_actions.className = "cell";
-        this.cell_actions.appendChild(new Button("Edit", onEdit));
+        this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
         this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
         this.row.appendChild(this.cell_actions);
 
+    }
+    Edit(){
+        //console.log(this.cell_fio.innerHTML);
+        this.input = document.createElement("input");
+        this.input.value = this.cell_fio.innerHTML;
+        this.fio=this.cell_fio.innerHTML;
+        this.cell_fio.innerHTML="";
+        this.cell_fio.appendChild(this.input);
+        this.cell_actions.innerHTML="";
+        this.cell_actions.appendChild(new Button("Save", this.Save.bind(this)));
+        this.cell_actions.appendChild(new Button("Cansel", this.Cansel.bind(this)));
     }
     SetData(index, fio) {
         this.cell_number.innerHTML = index;
@@ -77,81 +75,25 @@ class TrDisplay {
     Remove() {
         this.row.remove();
     }
-    Hidden() {
-        this.row.hidden = true;
-
+    Save(){
+        this.cell_fio.innerHTML="";
+        this.cell_fio.innerHTML=this.input.value;
+        this.cell_actions.innerHTML="";
+        this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
+        this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
     }
-    Show() {
-        this.row.hidden = false;
+    Cansel(){
+        this.cell_fio.innerHTML="";
+        this.cell_fio.innerHTML=this.fio;
+        this.cell_actions.innerHTML="";
+        this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
+        this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
     }
     GetElement() {
         return this.row;
     }
 }
 // класс для редактирования строки
-class TrEdit {
-
-    constructor(index, fio) {
-        this.row = document.createElement("div");
-        this.row.className = "row";
-
-        //this.row.appendChild(cell);
-        this.cell_number = document.createElement('div');
-        this.cell_number.innerHTML = index;
-        this.cell_number.className = "cell";
-        this.row.appendChild(this.cell_number);
-
-        this.fio = fio;
-        this.cell_fio = document.createElement('div');
-        this.inp = document.createElement("input");
-        this.cell_fio.appendChild(this.inp);
-        this.cell_fio.className = "cell";
-        this.row.appendChild(this.cell_fio);
-
-        this.cell_prof = document.createElement("div");
-
-        this.select = document.createElement("select"); 
-        this.options = ["","Frontend", "Backend", "Designer", "Tester", "Manager"]; 
-
-        for(var i = 0; i < this.options.length; i++) {
-        this.opt = this.options[i];
-        this.el = document.createElement("option");
-        this.el.textContent = this.opt;
-        this.el.value = this.opt;
-        this.select.appendChild(this.el)}
-        this.cell_prof.appendChild(this.select);
-        this.cell_prof.className = "cell";
-        this.row.appendChild(this.cell_prof);
-
-        this.cell_actions = document.createElement("div");
-        this.cell_actions.className = "cell";
-        this.cell_actions.appendChild(new Button("Cansel", this.Edit.bind(this, index)));
-        this.cell_actions.appendChild(new Button("Save", this.Remove.bind(this, index)));
-        this.row.appendChild(this.cell_actions);
-        //console.log(index)
-    }
-    Edit(index) {
-        //console.log(index);
-        //this.td_fio.innerHTML=this.fio;
-        new People(index, this.fio).CreateHtml()
-        this.row.remove();
-    }
-
-    Remove(index) {
-        //this.td_fio.innerHTML=this.inp.value;
-        new People(index, this.inp.value).CreateHtml()
-        this.row.remove();
-    }
-    Hidden() {
-        this.row.hidden = true;
-    }
-    Show() {
-        this.row.hidden = false;
-    }
-    GetElement() {
-        return this.row;
-    }
-}
 class App {
     constructor(element) {
         this.Peoples = new Array();

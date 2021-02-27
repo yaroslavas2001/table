@@ -5,7 +5,9 @@ class People {
     }
     CreateHtml(table) {
         this.TrDisplay = new TrDisplay(this.index, this.text, this.onEdit.bind(this));
+         
         this.TrEdit = new TrEdit(this.index, this.text);
+        
         this.TrEdit.Hidden();
         //this.TrDisplay.SetData(2,"Иванов И.И.")
         table.appendChild(this.TrDisplay.GetElement());
@@ -15,12 +17,6 @@ class People {
     onEdit() {
         this.TrDisplay.Hidden();
         this.TrEdit.Show();
-    }
-    Hidden() {
-        this.row.hidden = true;
-    }
-    Show() {
-        this.row.hidden = false;
     }
 }
 class Button {
@@ -78,11 +74,12 @@ class TrDisplay {
         this.row.remove();
     }
     Hidden() {
-        this.row.hidden = true;
-
+       this.row.hidden = true;
+        //this.row.className="hidden";
     }
     Show() {
         this.row.hidden = false;
+        //this.row.className="show";
     }
     GetElement() {
         return this.row;

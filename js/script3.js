@@ -5,27 +5,17 @@ class People {
         this.index = index
         this.text = text
     }
-    /**
-   * метод для создание строки
-   * @return {this.table} возращает таблицу
-   */
     CreateHtml(table) {
         this.TrDisplay = new TrDisplay(this.index, this.text, this.onEdit.bind(this));
+        table.appendChild(this.TrDisplay.GetElement());
+
         this.TrEdit = new TrEdit(this.index, this.text);
-        //скрываем вызванный класс
         this.TrEdit.Hidden();
         //this.TrDisplay.SetData(2,"Иванов И.И.")
-        //добавляем созданную строку в таблицу
-        table.appendChild(this.TrDisplay.GetElement());
-        //добавляем состояние редактирования в таблицу
         table.appendChild(this.TrEdit.GetElement());
         // возвращаем table
         return table
-    }
-    /**
-     * 
-     */
-    // метод для скрытия класса          
+    }        
     onEdit() {
         this.TrDisplay.Hidden();
         this.TrEdit.Show();
@@ -47,12 +37,6 @@ class Button {
 }
 // класс для создания строки
 class TrDisplay {
-    /**
-       * Инициализация index, fio, onEdit
-       * @param {this.index} index строки
-       * @param {this.fio} fio строки
-       * @param {this.onEdit} передает метод onEdit
-       */
     constructor(index, fio, onEdit) {
         // создание tr
         this.row = document.createElement("tr");
@@ -102,11 +86,6 @@ class TrDisplay {
 }
 // класс для редактирования строки
 class TrEdit {
-    /**
-    * Инициализация index, fio
-    * @param {this.index} index строки
-    * @param {this.fio} fio строки
-    */
     constructor(index, fio) {
         //создание tr
         this.row = document.createElement("tr");

@@ -29,3 +29,9 @@ td{
     padding:5px 10px;
     margin: 20px 10px;
 }
+.hidden{
+    display: none;
+}
+.show{
+    display: block;
+}
