@@ -55,6 +55,8 @@ class TrDisplay {
         this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
         this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
         this.row.appendChild(this.cell_actions);
+        //this.set= [index,fio]
+        localStorage.setItem(index,this.cell_fio.innerHTML)
 
     }
     Edit(){
@@ -73,11 +75,17 @@ class TrDisplay {
         this.cell_fio.innerHTML = fio;
     }
     Remove() {
+        //console.log()
+        //console.log(localStorage.getItem(this.cell_number.innerHTML))
+        localStorage.removeItem(this.cell_number.innerHTML)
         this.row.remove();
+        
+        
     }
     Save(){
         this.cell_fio.innerHTML="";
         this.cell_fio.innerHTML=this.input.value;
+        localStorage.setItem(this.cell_number.innerHTML,this.cell_fio.innerHTML)
         this.cell_actions.innerHTML="";
         this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
         this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
