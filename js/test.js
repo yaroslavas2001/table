@@ -39,24 +39,27 @@ class TrDisplay {
         this.select = document.createElement("select"); 
         this.options = ["","Frontend", "Backend", "Designer", "Tester", "Manager"]; 
 
-        for(var i = 0; i < this.options.length; i++) {
-        this.opt = this.options[i];
-        this.el = document.createElement("option");
-        this.el.textContent = this.opt;
-        this.el.value = this.opt;
-        this.select.appendChild(this.el)}
+        for(var i = 0; i < this.options.length; i++) {   
+            this.opt = this.options[i];
+            this.el = document.createElement("option");
+            this.el.textContent = this.opt;
+            this.el.value = this.opt;
+            this.select.appendChild(this.el)
+        }
         this.cell_prof.appendChild(this.select);
         this.cell_prof.className = "cell";
         this.row.appendChild(this.cell_prof);
-
+        console.log()
 
         this.cell_actions = document.createElement("div");
         this.cell_actions.className = "cell";
         this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
         this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
         this.row.appendChild(this.cell_actions);
+        
         //this.set= [index,fio]
-        localStorage.setItem(index,this.cell_fio.innerHTML)
+        localStorage.setItem(index,this.cell_fio.innerHTML);
+        //console.log(localStorage.length);
 
     }
     Edit(){
@@ -132,12 +135,36 @@ class App {
         this._CreateСap("Профессия");
         this._CreateСap("Действия");
         this.table.appendChild(this.row);
+        this.onload();
         return this.table;
     }
     onAddPeole(namePeole) {
-        var people = new People(this.Peoples.length, namePeole)
+        var values = [],
+        keys = Object.keys(localStorage),
+        i = keys.length;
+        console.log(i);
+        var people = new People(i, namePeole)
         this.Peoples.push(people);
         people.CreateHtml(this.table);
+    }
+    onload(){
+        if (localStorage.length>0){
+            var obj= {};
+            var values = [],
+            keys = Object.keys(localStorage),
+            i = keys.length;
+            
+            for(var t=0;t<i;t++ ){
+                obj[keys[t]]=localStorage.getItem(keys[t]);
+            }
+            keys.sort();
+            for (var j=0; j <i; j++) {
+                var people = new People(keys[j],obj[keys[j]]);
+                this.Peoples.push(people);
+                people.CreateHtml(this.table);
+            }
+            // ПОСМОТРЕТЬ ПОЧЕМУ СКАЧАТ ЗНАЧЕНИЯ
+        }
     }
 }
 class AddForm {
