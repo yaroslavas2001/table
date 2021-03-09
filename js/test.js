@@ -114,6 +114,8 @@ class App {
         this.Init(element);
     }
     Init(element) {
+    
+
         element.appendChild(this._CreateTable());
         this.AddForm.Init(element);
         this.AddForm.onAddPeole = this.onAddPeole.bind(this);
@@ -139,31 +141,52 @@ class App {
         return this.table;
     }
     onAddPeole(namePeole) {
-        var values = [],
-        keys = Object.keys(localStorage),
-        i = keys.length;
-        console.log(i);
-        var people = new People(i, namePeole)
-        this.Peoples.push(people);
-        people.CreateHtml(this.table);
-    }
-    onload(){
-        if (localStorage.length>0){
-            var obj= {};
+        i=1
+        /// нумерация
+        if(localStorage.length>0){
             var values = [],
             keys = Object.keys(localStorage),
             i = keys.length;
-            
+            for(var u=0;u<i;u++){
+                keys[u]=parseInt(keys[u]);
+            }
+            keys.sort(function (a, b) {
+                return a-b; 
+            })
+            // sort сортирует как строки
+            console.log(keys)
+            this.index=parseInt(keys[i-1])+1;
+            var people = new People(this.index, namePeole)
+            this.Peoples.push(people);
+            people.CreateHtml(this.table);
+
+        }else{
+            var people = new People(i, namePeole)
+            this.Peoples.push(people);
+            people.CreateHtml(this.table);
+            i+=1;
+        }
+        
+    }
+    onload(){
+        if (localStorage.length>0){
+            var obj= {},
+            keys = Object.keys(localStorage),
+            i = keys.length;
+            for(var u=0;u<i;u++){
+                keys[u]=parseInt(keys[u]);
+            }
+            keys.sort(function (a, b) {
+                return a-b; 
+            })
             for(var t=0;t<i;t++ ){
                 obj[keys[t]]=localStorage.getItem(keys[t]);
             }
-            keys.sort();
             for (var j=0; j <i; j++) {
                 var people = new People(keys[j],obj[keys[j]]);
                 this.Peoples.push(people);
                 people.CreateHtml(this.table);
             }
-            // ПОСМОТРЕТЬ ПОЧЕМУ СКАЧАТ ЗНАЧЕНИЯ
         }
     }
 }
