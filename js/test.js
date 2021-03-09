@@ -37,6 +37,7 @@ class TrDisplay {
         this.cell_prof = document.createElement("div");
 
         this.select = document.createElement("select"); 
+        this.select.addEventListener("change",this.Aalert.bind(this));
         this.options = ["","Frontend", "Backend", "Designer", "Tester", "Manager"]; 
 
         for(var i = 0; i < this.options.length; i++) {   
@@ -61,6 +62,9 @@ class TrDisplay {
         localStorage.setItem(index,this.cell_fio.innerHTML);
         //console.log(localStorage.length);
 
+    }
+    Aalert(){
+        alert("work")
     }
     Edit(){
         //console.log(this.cell_fio.innerHTML);
