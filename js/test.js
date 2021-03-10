@@ -1,10 +1,11 @@
 class People {
-    constructor(index, text) {
+    constructor(index, text,value) {
         this.index = index
         this.text = text
+        this.value=value
     }
     CreateHtml(table) {
-        this.TrDisplay = new TrDisplay(this.index, this.text);
+        this.TrDisplay = new TrDisplay(this.index, this.text,this.value);
         table.appendChild(this.TrDisplay.GetElement());
         return table
     }  
@@ -19,7 +20,7 @@ class Button {
     }
 }
 class TrDisplay {
-    constructor(index, fio) {
+    constructor(index, fio,value) {
         this.row = document.createElement("div");
         this.row.className = "row";
 
@@ -47,10 +48,27 @@ class TrDisplay {
             this.el.value = this.opt;
             this.select.appendChild(this.el)
         }
+        if (value === '') {
+            this.select[0].selected = true;
+        }
+        if (value === 'Frontend') {
+            this.select[1].selected = true;
+        }
+        if (value === 'Backend') {
+            this.select[2].selected = true;
+        }
+        if (value === 'Designer') {
+            this.select[3].selected = true;
+        }
+        if (value === 'Tester') {
+            this.select[4].selected = true;
+        }
+        if (value === 'Manager') {
+            this.select[5].selected = true;
+        }
         this.cell_prof.appendChild(this.select);
         this.cell_prof.className = "cell";
         this.row.appendChild(this.cell_prof);
-        console.log()
 
         this.cell_actions = document.createElement("div");
         this.cell_actions.className = "cell";
@@ -58,16 +76,17 @@ class TrDisplay {
         this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
         this.row.appendChild(this.cell_actions);
         
-        //this.set= [index,fio]
-        localStorage.setItem(index,this.cell_fio.innerHTML);
+        this.set= [this.cell_fio.innerHTML,this.select.value]
+        localStorage.setItem(index,this.set);
         //console.log(localStorage.length);
 
     }
     Aalert(){
-        alert("work")
+        this.set= [this.cell_fio.innerHTML,this.select.value]
+        console.log(this.cell_number.innerHTML)
+        localStorage.setItem(this.cell_number.innerHTML,this.set);
     }
     Edit(){
-        //console.log(this.cell_fio.innerHTML);
         this.input = document.createElement("input");
         this.input.value = this.cell_fio.innerHTML;
         this.fio=this.cell_fio.innerHTML;
@@ -82,17 +101,14 @@ class TrDisplay {
         this.cell_fio.innerHTML = fio;
     }
     Remove() {
-        //console.log()
-        //console.log(localStorage.getItem(this.cell_number.innerHTML))
         localStorage.removeItem(this.cell_number.innerHTML)
-        this.row.remove();
-        
-        
+        this.row.remove();  
     }
     Save(){
         this.cell_fio.innerHTML="";
         this.cell_fio.innerHTML=this.input.value;
-        localStorage.setItem(this.cell_number.innerHTML,this.cell_fio.innerHTML)
+        this.set= [this.cell_fio.innerHTML,this.select.value]
+        localStorage.setItem(this.cell_number.innerHTML,this.set)
         this.cell_actions.innerHTML="";
         this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
         this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
@@ -187,9 +203,17 @@ class App {
                 obj[keys[t]]=localStorage.getItem(keys[t]);
             }
             for (var j=0; j <i; j++) {
-                var people = new People(keys[j],obj[keys[j]]);
-                this.Peoples.push(people);
-                people.CreateHtml(this.table);
+                if (obj[keys[j]].split(",").length==2){
+                    console.log(obj[keys[j]].split(",")[0])
+                    console.log(obj[keys[j]].split(",")[1])
+                    var people = new People(keys[j],obj[keys[j]].split(",")[0],obj[keys[j]].split(",")[1]);
+                    this.Peoples.push(people);
+                    people.CreateHtml(this.table);
+                }else{
+                    var people = new People(keys[j],obj[keys[j]],"");
+                    this.Peoples.push(people);
+                    people.CreateHtml(this.table);
+                }
             }
         }
     }
