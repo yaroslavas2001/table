@@ -1,4 +1,5 @@
 class People {
+    //класс для возвращения таблицы после передачи значений
     constructor(index, text,value) {
         this.index = index
         this.text = text
@@ -12,6 +13,7 @@ class People {
 
 }
 class Button {
+    //класс для создания кнопки и привязки метода к ней 
     constructor(text, onclick) {
         this._btn = document.createElement("button");
         this._btn.textContent = text; 
@@ -20,6 +22,7 @@ class Button {
     }
 }
 class TrDisplay {
+    //класс заполнеия строк таблицы
     constructor(index, fio,value) {
         this.row = document.createElement("div");
         this.row.className = "row";
@@ -38,7 +41,7 @@ class TrDisplay {
         this.cell_prof = document.createElement("div");
 
         this.select = document.createElement("select"); 
-        this.select.addEventListener("change",this.Aalert.bind(this));
+        this.select.addEventListener("change",this.Select.bind(this));
         this.options = ["","Frontend", "Backend", "Designer", "Tester", "Manager"]; 
 
         for(var i = 0; i < this.options.length; i++) {   
@@ -78,14 +81,13 @@ class TrDisplay {
         
         this.set= [this.cell_fio.innerHTML,this.select.value]
         localStorage.setItem(index,this.set);
-        //console.log(localStorage.length);
-
     }
-    Aalert(){
+    //метод для сохраниения выбранного значения из select в localStorage
+    Select(){
         this.set= [this.cell_fio.innerHTML,this.select.value]
-        console.log(this.cell_number.innerHTML)
         localStorage.setItem(this.cell_number.innerHTML,this.set);
     }
+    // метод для редактирования ФИО
     Edit(){
         this.input = document.createElement("input");
         this.input.value = this.cell_fio.innerHTML;
@@ -96,15 +98,8 @@ class TrDisplay {
         this.cell_actions.appendChild(new Button("Save", this.Save.bind(this)));
         this.cell_actions.appendChild(new Button("Cansel", this.Cansel.bind(this)));
     }
-    SetData(index, fio) {
-        this.cell_number.innerHTML = index;
-        this.cell_fio.innerHTML = fio;
-    }
-    Remove() {
-        localStorage.removeItem(this.cell_number.innerHTML)
-        this.row.remove();  
-    }
-    Save(){
+    // метод сохраняющий измененный вариант
+     Save(){
         this.cell_fio.innerHTML="";
         this.cell_fio.innerHTML=this.input.value;
         this.set= [this.cell_fio.innerHTML,this.select.value]
@@ -113,6 +108,7 @@ class TrDisplay {
         this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
         this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
     }
+    // метод возвращающий вариант который был
     Cansel(){
         this.cell_fio.innerHTML="";
         this.cell_fio.innerHTML=this.fio;
@@ -120,12 +116,21 @@ class TrDisplay {
         this.cell_actions.appendChild(new Button("Edit", this.Edit.bind(this)));
         this.cell_actions.appendChild(new Button("Remove", this.Remove.bind(this)));
     }
+    //метод для удаления строки
+    Remove() {
+        localStorage.removeItem(this.cell_number.innerHTML)
+        this.row.remove();  
+    }
+    SetData(index, fio) {
+        this.cell_number.innerHTML = index;
+        this.cell_fio.innerHTML = fio;
+    }
     GetElement() {
         return this.row;
     }
 }
-// класс для редактирования строки
 class App {
+    // класс для создания шапки и заполнения полей из localStorage
     constructor(element) {
         this.Peoples = new Array();
 
@@ -133,13 +138,13 @@ class App {
         
         this.Init(element);
     }
+    //метод для добавления таблицы
     Init(element) {
-    
-
         element.appendChild(this._CreateTable());
         this.AddForm.Init(element);
         this.AddForm.onAddPeole = this.onAddPeole.bind(this);
     }
+    //метод для создания шапки
     _CreateСap(name) {
         var cell = document.createElement("div");
         cell.className = "cell";
@@ -147,6 +152,7 @@ class App {
         cell.appendChild(cellText);
         this.row.appendChild(cell);
     }
+    // метод для создания таблицы
     _CreateTable() {
         this.table = document.createElement("div");
         this.table.className = "table";
@@ -160,9 +166,9 @@ class App {
         this.onload();
         return this.table;
     }
+    //метод для нумерации и заполнея таблицы
     onAddPeole(namePeole) {
         i=1
-        /// нумерация
         if(localStorage.length>0){
             var values = [],
             keys = Object.keys(localStorage),
@@ -174,7 +180,6 @@ class App {
                 return a-b; 
             })
             // sort сортирует как строки
-            console.log(keys)
             this.index=parseInt(keys[i-1])+1;
             var people = new People(this.index, namePeole)
             this.Peoples.push(people);
@@ -188,6 +193,7 @@ class App {
         }
         
     }
+    // метод для заполнения из localStorage
     onload(){
         if (localStorage.length>0){
             var obj= {},
@@ -204,8 +210,6 @@ class App {
             }
             for (var j=0; j <i; j++) {
                 if (obj[keys[j]].split(",").length==2){
-                    console.log(obj[keys[j]].split(",")[0])
-                    console.log(obj[keys[j]].split(",")[1])
                     var people = new People(keys[j],obj[keys[j]].split(",")[0],obj[keys[j]].split(",")[1]);
                     this.Peoples.push(people);
                     people.CreateHtml(this.table);
@@ -219,6 +223,7 @@ class App {
     }
 }
 class AddForm {
+    //класс для добавления input
     constructor() {
     }
     Init(element) {
@@ -232,7 +237,6 @@ class AddForm {
 
         element.appendChild(btn);
     }
-
     onClickAddPeople() {
         if (this.onAddPeole) {
             this.onAddPeole(this.inp.value);
@@ -241,5 +245,5 @@ class AddForm {
     }
 }
 
-
+// в класс передается ээлемент
 new App(document.getElementsByTagName("body")[0]);
